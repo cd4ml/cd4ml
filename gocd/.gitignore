@@ -1,0 +1,8 @@
+logs
+db
+config
+artifacts
+addons
+**/plugins/bundled
+*.zip
+.pki
