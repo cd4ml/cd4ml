@@ -1,0 +1,36 @@
+version: "3.4"
+services: 
+
+  go-server:
+    image: "gocd/gocd-server-centos-7:v19.10.0"
+    ports:
+      - "8153:8153"
+      - "8154:8154"
+    volumes:
+      - ./server/data/godata:/godata     # configuration, pipeline history database, artifacts, plugins, and logs
+      - ./server/data/homego:/home/go    # secure credentials like SSH private keys among other things
+
+  go-provisioner: 
+    image: "gocd/gocd-agent-ubuntu-18.04:v19.10.0"
+    links:
+      - "go-server"
+    depends_on:
+      - "go-server"  
+    environment:
+      AGENT_AUTO_REGISTER_KEY: "72959c43-ae4a-4c8d-aa46-181b7384a987"
+      AGENT_AUTO_REGISTER_RESOURCES: "provisioner"
+      GO_SERVER_URL: "https://go-server:8154/go"
+        
+  go-aws: 
+    build: 
+      context: ./agent
+      dockerfile: Dockerfile
+    image: dvc/gocdagent
+    links:
+      - "go-server"
+    depends_on:
+      - "go-server"    
+    environment:
+      AGENT_AUTO_REGISTER_KEY: "72959c43-ae4a-4c8d-aa46-181b7384a987"
+      AGENT_AUTO_REGISTER_RESOURCES: "aws,gpu"
+      GO_SERVER_URL: "https://go-server:8154/go" 

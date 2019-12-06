@@ -1,0 +1,12 @@
+version: "3.4"
+
+services: 
+  github-runner:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args:
+        REPO: "https://github.com/cd4ml/caseA"
+        TOKEN: "AN5WQYJ74QT5PEMKURONCLC5422SO"
+    image: github-runner
+    
