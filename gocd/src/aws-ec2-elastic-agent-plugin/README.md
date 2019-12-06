@@ -1,4 +1,10 @@
-# GoCD Elastic agent plugin skeleton
+# AWS EC2 Elastic agent plugin
+
+Wip
+
+
+
+## GoCD Elastic agent plugin skeleton
 
 This is merely a skeleton plugin that plugin developers can fork to get quickly 
 started with writing elastic agent plugins for GoCD.
